@@ -1,78 +1,196 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
+import {
+  LayoutDashboard,
+  PlusCircle,
+  Settings,
+  Sparkles,
+  User,
+} from "lucide-react";
 
 export default function Sidebar() {
+  const linkClass = ({ isActive }) =>
+    `
+    flex
+    items-center
+    gap-3
+
+    p-4
+
+    rounded-xl
+
+    transition-all
+    duration-300
+
+    ${
+      isActive
+        ? "bg-cyan-500 text-black font-semibold shadow-lg"
+        : "hover:bg-cyan-500/10 text-slate-300"
+    }
+  `;
+
   return (
     <div
       className="
-      w-full
-      lg:w-72
-      bg-slate-950
-      border-b
-      lg:border-b-0
-      lg:border-r
-      border-slate-800
+      h-screen
+
+      bg-black/40
+      backdrop-blur-xl
+
+      border-r
+      border-cyan-500/20
+
       p-6
+
+      flex
+      flex-col
+      justify-between
       "
     >
-      <h2
-        className="
-        text-3xl
-        font-bold
-        mb-6
-        text-cyan-400
-        "
-      >
-        DevForge AI
-      </h2>
+
+      {/* Top Section */}
+
+      <div>
+
+        {/* Logo */}
+
+        <div
+          className="
+          flex
+          items-center
+          gap-3
+
+          mb-12
+          "
+        >
+          <Sparkles
+            className="text-cyan-400"
+            size={30}
+          />
+
+          <h1
+            className="
+            text-2xl
+            md:text-3xl
+
+            font-bold
+
+            text-cyan-400
+            "
+          >
+            DevForge AI
+          </h1>
+        </div>
+
+        {/* Navigation */}
+
+        <nav
+          className="
+          flex
+          flex-col
+          gap-3
+          "
+        >
+
+          <NavLink
+            to="/dashboard"
+            className={linkClass}
+          >
+            <LayoutDashboard size={20} />
+
+            Dashboard
+          </NavLink>
+
+          <NavLink
+            to="/create-project"
+            className={linkClass}
+          >
+            <PlusCircle size={20} />
+
+            New Project
+          </NavLink>
+
+          <NavLink
+            to="/settings"
+            className={linkClass}
+          >
+            <Settings size={20} />
+
+            Settings
+          </NavLink>
+
+        </nav>
+
+      </div>
+
+      {/* Bottom User Card */}
 
       <div
         className="
-        flex
-        flex-row
-        lg:flex-col
-        gap-4
-        overflow-x-auto
+        bg-slate-900/80
+
+        border
+        border-slate-800
+
+        rounded-2xl
+
+        p-4
         "
       >
-        <Link
-          to="/dashboard"
-          className="
-          px-4
-          py-2
-          rounded-lg
-          hover:bg-slate-800
-          transition
-          "
-        >
-          Dashboard
-        </Link>
 
-        <Link
-          to="/create-project"
+        <div
           className="
-          px-4
-          py-2
-          rounded-lg
-          hover:bg-slate-800
-          transition
+          flex
+          items-center
+          gap-3
           "
         >
-          New Project
-        </Link>
 
-        <Link
-          to="/settings"
-          className="
-          px-4
-          py-2
-          rounded-lg
-          hover:bg-slate-800
-          transition
-          "
-        >
-          Settings
-        </Link>
+          <div
+            className="
+            h-12
+            w-12
+
+            rounded-full
+
+            bg-cyan-500
+
+            flex
+            items-center
+            justify-center
+            "
+          >
+            <User
+              size={22}
+              className="text-black"
+            />
+          </div>
+
+          <div>
+
+            <h3
+              className="
+              font-semibold
+              "
+            >
+              Harshit Singh
+            </h3>
+
+            <p
+              className="
+              text-sm
+              text-slate-400
+              "
+            >
+              Developer
+            </p>
+
+          </div>
+
+        </div>
+
       </div>
+
     </div>
   );
 }
