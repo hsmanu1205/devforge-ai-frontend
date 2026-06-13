@@ -5,73 +5,73 @@ import {
   FolderPlus,
   FileText,
   Sparkles,
+  ArrowLeft,
 } from "lucide-react";
 
 import useProjectStore from "../store/projectStore";
 
 export default function CreateProject() {
-
   const navigate = useNavigate();
 
-  const {
-    createNewProject,
-  } = useProjectStore();
+  const { createNewProject } =
+    useProjectStore();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] =
+  const [title, setTitle] =
     useState("");
+
+  const [
+    description,
+    setDescription,
+  ] = useState("");
 
   const [loading, setLoading] =
     useState(false);
 
-  const handleCreateProject = async () => {
+  const handleCreateProject =
+    async () => {
+      if (
+        !title.trim() ||
+        !description.trim()
+      ) {
+        alert(
+          "Please fill all fields"
+        );
 
-    if (
-      !title.trim() ||
-      !description.trim()
-    ) {
-      alert(
-        "Please fill all fields"
-      );
+        return;
+      }
 
-      return;
-    }
+      try {
+        setLoading(true);
 
-    try {
+        await createNewProject({
+          title,
+          description,
+        });
 
-      setLoading(true);
+        alert(
+          "Project Created Successfully!"
+        );
 
-      await createNewProject({
-        title,
-        description,
-      });
+        navigate("/dashboard");
+      } catch (error) {
+        console.error(error);
 
-      alert(
-        "Project Created Successfully!"
-      );
-
-      navigate("/dashboard");
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-        "Failed to create project"
-      );
-
-    } finally {
-
-      setLoading(false);
-
-    }
-  };
+        alert(
+          "Failed to create project"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <div
       className="
       min-h-screen
-      bg-slate-950
+      bg-gradient-to-br
+      from-slate-950
+      via-slate-900
+      to-blue-950
       text-white
       p-4
       md:p-8
@@ -83,11 +83,45 @@ export default function CreateProject() {
         mx-auto
         "
       >
+        {/* Back Button */}
+
+        <button
+          onClick={() =>
+            navigate("/dashboard")
+          }
+          className="
+          flex
+          items-center
+          gap-2
+
+          mb-8
+
+          bg-slate-900/80
+          backdrop-blur-xl
+
+          border
+          border-cyan-500/30
+
+          hover:border-cyan-400
+
+          px-5
+          py-3
+
+          rounded-xl
+
+          transition-all
+          duration-300
+
+          hover:shadow-[0_0_20px_rgba(6,182,212,0.25)]
+          "
+        >
+          <ArrowLeft size={18} />
+          Back to Dashboard
+        </button>
 
         {/* Header */}
 
-        <div className="mb-8">
-
+        <div className="mb-10">
           <div
             className="
             flex
@@ -97,52 +131,57 @@ export default function CreateProject() {
             "
           >
             <Sparkles
-              className="text-cyan-400"
-              size={30}
+              className="
+              text-cyan-400
+              "
+              size={32}
             />
 
             <h1
               className="
-              text-3xl
-              md:text-5xl
-              font-bold
+              text-4xl
+              md:text-6xl
+              font-black
               "
             >
               Create Project
             </h1>
-
           </div>
 
-          <p className="text-slate-400">
-            Describe your software idea
-            and create a new project.
+          <p
+            className="
+            text-slate-400
+            text-lg
+            "
+          >
+            Describe your software
+            idea and create a new
+            project.
           </p>
-
         </div>
 
         {/* Form Card */}
 
         <div
           className="
-          bg-slate-900/80
+          bg-slate-900/70
+
           backdrop-blur-xl
 
           border
-          border-slate-800
+          border-cyan-500/20
 
           rounded-3xl
 
           p-6
-          md:p-8
+          md:p-10
 
-          shadow-xl
+          shadow-[0_0_40px_rgba(6,182,212,0.08)]
           "
         >
-
           {/* Title */}
 
-          <div className="mb-6">
-
+          <div className="mb-8">
             <label
               className="
               flex
@@ -150,35 +189,33 @@ export default function CreateProject() {
               gap-2
 
               text-slate-300
-              mb-2
+              mb-3
+
+              font-medium
               "
             >
-              <FolderPlus size={18} />
+              <FolderPlus
+                size={18}
+              />
 
               Project Title
             </label>
 
             <input
               type="text"
-
               value={title}
-
               onChange={(e) =>
                 setTitle(
                   e.target.value
                 )
               }
-
-              placeholder="
-              Netflix Clone
-              "
-
+              placeholder="Netflix Clone"
               className="
               w-full
 
-              p-4
+              p-5
 
-              rounded-xl
+              rounded-2xl
 
               bg-slate-800
 
@@ -188,16 +225,14 @@ export default function CreateProject() {
               focus:border-cyan-400
               focus:outline-none
 
-              transition
+              transition-all
               "
             />
-
           </div>
 
           {/* Description */}
 
           <div className="mb-8">
-
             <label
               className="
               flex
@@ -205,35 +240,33 @@ export default function CreateProject() {
               gap-2
 
               text-slate-300
-              mb-2
+              mb-3
+
+              font-medium
               "
             >
-              <FileText size={18} />
+              <FileText
+                size={18}
+              />
 
               Project Description
             </label>
 
             <textarea
               rows="8"
-
               value={description}
-
               onChange={(e) =>
                 setDescription(
                   e.target.value
                 )
               }
-
-              placeholder="
-Build a streaming platform using React, Spring Boot and MySQL with authentication and admin dashboard.
-              "
-
+              placeholder="Build a streaming platform using React, Spring Boot and MySQL with authentication and admin dashboard."
               className="
               w-full
 
-              p-4
+              p-5
 
-              rounded-xl
+              rounded-2xl
 
               bg-slate-800
 
@@ -245,46 +278,45 @@ Build a streaming platform using React, Spring Boot and MySQL with authenticatio
 
               resize-none
 
-              transition
+              transition-all
               "
             />
-
           </div>
 
-          {/* Button */}
+          {/* Create Button */}
 
           <button
             onClick={
               handleCreateProject
             }
-
             disabled={loading}
-
             className="
             w-full
-            md:w-auto
-
-            px-8
-            py-4
-
-            rounded-xl
 
             bg-cyan-500
             hover:bg-cyan-600
 
             text-black
-            font-semibold
+
+            font-bold
+
+            py-5
+
+            rounded-2xl
 
             transition-all
+            duration-300
+
+            hover:scale-[1.01]
+
+            disabled:opacity-50
             "
           >
             {loading
               ? "Creating..."
               : "Create Project"}
           </button>
-
         </div>
-
       </div>
     </div>
   );
